@@ -2,6 +2,8 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Main from '~/containers/main.jsx';
+import Container from '~/containers/container.jsx';
+import NotFound from '~/components/not-found.jsx';
 
 
 export default class App extends React.Component {
@@ -14,8 +16,8 @@ export default class App extends React.Component {
       <>
         <Main>
           <Switch>
-            {/* <Route exact path='/' component={Home} />         
-            <Route component={NotFound} /> */}
+            <Route exact path='/' component={Container} />         
+            <Route component={NotFound} />
           </Switch>
         </Main>
       </>

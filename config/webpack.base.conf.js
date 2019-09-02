@@ -1,16 +1,16 @@
 // Webpack v4
 const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const _root = path.resolve()
+const _root = path.resolve();
 
 const PATHS = {
     src: path.resolve(_root, "src"),
     public: path.resolve(_root, "public"),
     assets: 'assets'
-}
+};
 
 module.exports = {
     // BASE config
@@ -25,7 +25,6 @@ module.exports = {
         path: PATHS.public,
         publicPath: '/'
     },
-
     resolve: {
         alias: {
           '~': PATHS.src
@@ -58,14 +57,16 @@ module.exports = {
             test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
             loader: 'file-loader',
             options: {
-                name: '[name].[ext]'
+                name: '[name].[ext]',
+                outputPath: `${PATHS.assets}/fonts`
             }
         },
         {
             test: /\.(png|jpg|gif|svg)$/,
             loader: 'file-loader',
             options: {
-                name: '[name].[ext]'
+                name: '[name].[ext]',
+                outputPath: `${PATHS.assets}/img`
             }
         },
         {
@@ -120,4 +121,4 @@ module.exports = {
             { debug: false }
         )
     ]
-}
+};
