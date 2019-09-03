@@ -3,6 +3,7 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const _root = path.resolve();
 
@@ -27,10 +28,16 @@ module.exports = {
     },
     resolve: {
         alias: {
-          '~': PATHS.src
+            '~': PATHS.src
         }
-      },
+    },
     optimization: {
+        minimizer: [
+            new TerserPlugin({
+              cache: true,
+              parallel: true
+            })
+          ],
         splitChunks: {
             cacheGroups: {
                 vendor: {

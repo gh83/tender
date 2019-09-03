@@ -7,6 +7,7 @@ export default class NotFound extends React.Component {
         return (
             <div className="not-found">
                 <i className="fa fa-exclamation-triangle" aria-hidden="true" />
+                <span>not-found</span>
             </div>
         )
     }

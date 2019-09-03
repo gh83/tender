@@ -1,0 +1,26 @@
+@import '../styles/variables.less';
+@import '../styles/mixins.less';
+
+.item {
+    .head {
+        .price {
+            &.rub {
+                &:after {
+                    content: '\00A0\20BD';
+                }
+            }
+        }
+    }
+
+    img {
+        display: block;
+    }
+
+    .anno {
+        font-size  : 13px;
+        color      : @var-color-anno;
+        overflow   : hidden;
+        line-height: 14px;
+        margin     : 10px 0;
+    }
+}
