@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 import './container.less';
+import Loader from '~/components/ui/loader.jsx';
 import Setting from '~/components/setting.jsx';
 import Item from '~/components/item.jsx';
 
@@ -16,7 +17,8 @@ export default class Container extends React.Component {
             numberStrings: 4,
             loading: true,
             lim: 3,
-            off: 0
+            off: 0,
+            showButtonNext: true
         };
     };
 
@@ -30,14 +32,14 @@ export default class Container extends React.Component {
 
     async categoryRequest(item) {
         let srtingRequest = [];
-        let { allItem, allCategory } = this.state;
+        let { allItem, allCategory, showButtonNext, lim } = this.state;
         item.data.forEach(element => { srtingRequest.push(element.category_id); allItem.push(element) });
         srtingRequest = srtingRequest.join(',');
         try {
             const category = await axios.get(`https://api.jstask.iac.tender.pro/cat?id=${srtingRequest}`);
+            if (item.data < lim) { showButtonNext = false };
             allCategory = allCategory.concat(category.data);
-            this.setState({ allItem, allCategory });
-            console.log(this.state.allItem,'-',this.state.allCategory);
+            this.setState({ allItem, allCategory, showButtonNext, loading: false });
         }
         catch (e) { console.log(e) };
     };
@@ -55,14 +57,15 @@ export default class Container extends React.Component {
     };
 
     addItem() {
-        let { lim, off } = this.state;
+        let { lim, off, loading } = this.state;
         off = off + lim;
-        this.setState({ off });
+        loading = true;
+        this.setState({ off, loading });
         this.itemRequest();
     };
 
     render() {
-        const { sizeImage, numberStrings, allItem, allCategory } = this.state;
+        const { sizeImage, numberStrings, allItem, allCategory, showButtonNext, loading } = this.state;
         return (
             <div className="container">
                 <Setting
@@ -83,10 +86,12 @@ export default class Container extends React.Component {
                             sizeImage={sizeImage}
                             numberStrings={numberStrings} />
                     ))}
-                    <div className="btn" onClick={() => this.addItem()}>
-                        <i className='fa fa-cloud-download' />
-                        'Показать еще'
-                    </div>
+                    {showButtonNext
+                        ? (loading
+                            ? (<Loader />)
+                            : (<div className="btn" onClick={() => this.addItem()}>
+                                <i className='fa fa-cloud-download' />'Показать еще'</div>))
+                        : null}
                 </div>
             </div>
         )
