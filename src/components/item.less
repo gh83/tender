@@ -2,8 +2,54 @@
 @import '../styles/mixins.less';
 
 .item {
+    .flex(column, flex-start, stretch);
+    min-width    : 270px;
+    max-width    : 560px;
+    padding      : 10px;
+    margin       : 5px;
+    border       : 1px solid @var-color-border;
+    border-radius: 5px;
+
+    @media (max-width: 1120px){
+        width: 25%;
+    }
+    @media (max-width: 850px){
+        width: 33.333%;
+    }
+    @media (max-width: 580px){
+        width: 50%;
+    }
+
     .head {
+        .flex(row, space-between, flex-start);
+
+        .category {
+            overflow     : hidden;
+            text-overflow: ellipsis;
+            color        : @var-color-category;
+            font-size    : 13px;
+
+            i {
+                &:after {
+                    content: '\00a0';
+                }
+            }
+
+            a {
+                cursor         : pointer;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
         .price {
+            color      : @var-color-price;
+            font-size  : 14px;
+            font-weight: bold;
+
             &.rub {
                 &:after {
                     content: '\00A0\20BD';
@@ -12,11 +58,27 @@
         }
     }
 
-    img {
-        display: block;
+    .image-warpper {
+        .flex(row, center, flex-start);
+        margin: 10px 0;
+
+        img {
+            display: block;
+        }
+    }
+
+    .name {
+        font-size      : 14px;
+        text-decoration: none;
+        color          : @var-color-name;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 
     .anno {
+        flex       : 1 1 auto;
         font-size  : 13px;
         color      : @var-color-anno;
         overflow   : hidden;

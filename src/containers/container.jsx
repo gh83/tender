@@ -39,6 +39,7 @@ export default class Container extends React.Component {
             const category = await axios.get(`https://api.jstask.iac.tender.pro/cat?id=${srtingRequest}`);
             if (item.data < lim) { showButtonNext = false };
             allCategory = allCategory.concat(category.data);
+            // console.log(this.state.allItem);
             this.setState({ allItem, allCategory, showButtonNext, loading: false });
         }
         catch (e) { console.log(e) };
@@ -78,6 +79,7 @@ export default class Container extends React.Component {
                         <Item
                             key={index}
                             category={allCategory[index].name}
+                            categoryId={allCategory[index].id}
                             price={item.price}
                             name={item.name}
                             anno={item.anno}
@@ -89,8 +91,7 @@ export default class Container extends React.Component {
                     {showButtonNext
                         ? (loading
                             ? (<Loader />)
-                            : (<div className="btn" onClick={() => this.addItem()}>
-                                <i className='fa fa-cloud-download' />'Показать еще'</div>))
+                            : (<div className="item btn" onClick={() => this.addItem()}><i className='fa fa-cloud-download' />'Показать еще'</div>))
                         : null}
                 </div>
             </div>
