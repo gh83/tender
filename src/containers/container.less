@@ -3,13 +3,26 @@
 
 .container{
     max-width: 1100px;
-    width: 100%;
     padding: 20px;
     margin: 0 auto;
     .list{
-        .flex(row,center,flex-start);
+        .flex(row,flex-start,stretch);
         flex-wrap: wrap;
-        width: 100%;
         margin: -10px;
+        .more{
+            .flex(row,center,center);
+            padding: 10px;
+        .btn{
+            padding: 15px;
+            border: 2px solid @var-color-name;
+            border-radius: 5px;
+            color: @var-color-name;
+            font-size: 14px;
+            cursor: pointer;
+            &:hover{
+                color: #fff;
+                background-color: @var-color-name;
+            }
+        }}
     }
 }

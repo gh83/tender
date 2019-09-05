@@ -2,87 +2,111 @@
 @import '../styles/mixins.less';
 
 .item {
-    .flex(column, flex-start, stretch);
-    min-width    : 270px;
-    max-width    : 560px;
-    padding      : 10px;
-    margin       : 5px;
-    border       : 1px solid @var-color-border;
-    border-radius: 5px;
+    min-width: 270px;
+    padding  : 10px;
 
-    @media (max-width: 1120px){
-        width: 25%;
-    }
-    @media (max-width: 850px){
-        width: 33.333%;
-    }
-    @media (max-width: 580px){
+    @media(min-width: 580px) {
         width: 50%;
     }
 
-    .head {
-        .flex(row, space-between, flex-start);
+    @media(min-width: 850px) {
+        width: 33.333%;
+    }
 
-        .category {
-            overflow     : hidden;
-            text-overflow: ellipsis;
-            color        : @var-color-category;
-            font-size    : 13px;
+    @media(min-width: 1120px) {
+        width: 25%;
+    }
 
-            i {
-                &:after {
-                    content: '\00a0';
+    .content {
+        .flex(column, flex-start, stretch);
+        padding      : 15px;
+        border       : 1px solid @var-color-border;
+        border-radius: 5px;
+        height       : 100%;
+
+        .head {
+            .flex(row, space-between, flex-start);
+
+            .category {
+                // flex      : 1 1 auto;
+                white-space  : nowrap;
+                color        : @var-color-category;
+                font-size    : 13px;
+                overflow     : hidden;
+                text-overflow: ellipsis;
+
+                i {
+                    &:after {
+                        content: '\00a0';
+                    }
+                }
+
+                a {
+                    cursor         : pointer;
+                    text-decoration: none;
+                    overflow       : hidden;
+                    text-overflow  : ellipsis;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
                 }
             }
 
-            a {
-                cursor         : pointer;
-                text-decoration: none;
+            .price {
+                white-space: nowrap;
+                color      : @var-color-price;
+                font-size  : 14px;
+                font-weight: bold;
 
-                &:hover {
-                    text-decoration: underline;
+                &.rub {
+                    &:after {
+                        content: '\00A0\20BD';
+                    }
                 }
             }
         }
 
-        .price {
-            color      : @var-color-price;
-            font-size  : 14px;
-            font-weight: bold;
+        .image-warpper {
+            .flex(row, center, flex-start);
+            margin : 10px 0;
+            padding: 0;
 
-            &.rub {
-                &:after {
-                    content: '\00A0\20BD';
-                }
+            .img {
+                background-position: 50% 50%;
+                background-repeat  : no-repeat;
+                background-size    : contain;
             }
         }
-    }
 
-    .image-warpper {
-        .flex(row, center, flex-start);
-        margin: 10px 0;
+        .name {
+            font-size      : 14px;
+            text-decoration: none;
+            color          : @var-color-name;
 
-        img {
-            display: block;
+            &:hover {
+                text-decoration: underline;
+            }
         }
-    }
 
-    .name {
-        font-size      : 14px;
-        text-decoration: none;
-        color          : @var-color-name;
+        .anno {
+            position   : relative;
+            flex       : 1 1 auto;
+            font-size  : 13px;
+            color      : @var-color-anno;
+            overflow   : hidden;
+            line-height: 14px;
+            margin     : 10px 0;
 
-        &:hover {
-            text-decoration: underline;
+            &:before {
+                content   : '';
+                width     : 100%;
+                height    : 100%;
+                position  : absolute;
+                left      : 0;
+                top       : 0;
+                background: linear-gradient(0deg, #ffffff 0%, rgba(255, 255, 255, 0) 14px);
+            }
         }
-    }
-
-    .anno {
-        flex       : 1 1 auto;
-        font-size  : 13px;
-        color      : @var-color-anno;
-        overflow   : hidden;
-        line-height: 14px;
-        margin     : 10px 0;
     }
 }

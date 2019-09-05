@@ -14,7 +14,7 @@ export default class Container extends React.Component {
             allItem: [],
             allCategory: [],
             sizeImage: 250,
-            numberStrings: 4,
+            numberStrings: 1,
             loading: true,
             lim: 3,
             off: 0,
@@ -37,7 +37,7 @@ export default class Container extends React.Component {
         srtingRequest = srtingRequest.join(',');
         try {
             const category = await axios.get(`https://api.jstask.iac.tender.pro/cat?id=${srtingRequest}`);
-            if (item.data < lim) { showButtonNext = false };
+            if (item.data.length < lim) { showButtonNext = false };
             allCategory = allCategory.concat(category.data);
             // console.log(this.state.allItem);
             this.setState({ allItem, allCategory, showButtonNext, loading: false });
@@ -49,21 +49,30 @@ export default class Container extends React.Component {
         this.itemRequest();
     };
 
+    //изменение размера изображения
     onChangeSizeImage(sizeImage) {
         this.setState({ sizeImage })
     };
 
+    //изменение количества строк
     onChangeString(numberStrings) {
         this.setState({ numberStrings });
     };
 
+    //добавление элементов на страницу
     addItem() {
-        let { lim, off, loading } = this.state;
+        let { lim, off } = this.state;
         off = off + lim;
-        loading = true;
-        this.setState({ off, loading });
+        this.setState({ off, loading: true });
         this.itemRequest();
+
     };
+    //подсчет высоты элементов 
+    annoHeight(value) {
+        let num = 14 + value * 14;
+        return (num);
+    };
+
 
     render() {
         const { sizeImage, numberStrings, allItem, allCategory, showButtonNext, loading } = this.state;
@@ -86,12 +95,19 @@ export default class Container extends React.Component {
                             currency={item.currency_id}
                             img='http://placeimg.com/250/250/any'
                             sizeImage={sizeImage}
-                            numberStrings={numberStrings} />
+                            numberStrings={this.annoHeight(numberStrings)} />
                     ))}
                     {showButtonNext
                         ? (loading
-                            ? (<Loader />)
-                            : (<div className="item btn" onClick={() => this.addItem()}><i className='fa fa-cloud-download' />'Показать еще'</div>))
+                            ? (<div className="item more">
+                                <Loader />
+                            </div>)
+                            : (<div className="item more" onClick={() => this.addItem()}>
+                                <div className="btn">
+                                    <i className='fa fa-cloud-download' />&nbsp;Показать еще
+                                </div>
+                            </div>)
+                        )
                         : null}
                 </div>
             </div>
