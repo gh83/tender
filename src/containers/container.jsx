@@ -22,25 +22,34 @@ export default class Container extends React.Component {
         };
     };
 
+    //запрос item , проверка на отображение кнопки
     async itemRequest() {
+        let { allItem } = this.state;
+        const { lim, off, showButtonNext } = this.state;
         try {
-            const item = await axios.get(`https://api.jstask.iac.tender.pro/products?lim=${this.state.lim}&off=${this.state.off}`);
-            this.categoryRequest(item);
+            const item = await axios.get(`https://api.jstask.iac.tender.pro/products?lim=${lim + 1}&off=${off}`);
+            if (item.data.length < lim + 1) { showButtonNext = false };
+            item.data = item.data.slice(0, lim);
+            this.categoryRequest(item.data);
+            allItem = allItem.concat(item.data);
+            this.setState({ allItem, showButtonNext, loading: false });
         }
         catch (e) { console.log(e) };
     };
 
+    //запрос category
     async categoryRequest(item) {
         let srtingRequest = [];
-        let { allItem, allCategory, showButtonNext, lim } = this.state;
-        item.data.forEach(element => { srtingRequest.push(element.category_id); allItem.push(element) });
+        let { allCategory } = this.state;
+        item.forEach(element => {
+            srtingRequest.push(element.category_id);
+        });
         srtingRequest = srtingRequest.join(',');
         try {
             const category = await axios.get(`https://api.jstask.iac.tender.pro/cat?id=${srtingRequest}`);
-            if (item.data.length < lim) { showButtonNext = false };
             allCategory = allCategory.concat(category.data);
-            // console.log(this.state.allItem);
-            this.setState({ allItem, allCategory, showButtonNext, loading: false });
+            this.setState({ allCategory });
+            console.log(this.state.allItem, this.state.allCategory);
         }
         catch (e) { console.log(e) };
     };
@@ -61,7 +70,8 @@ export default class Container extends React.Component {
 
     //добавление элементов на страницу
     addItem() {
-        let { lim, off } = this.state;
+        let { off } = this.state;
+        const { lim } = this.state;
         off = off + lim;
         this.setState({ off, loading: true });
         this.itemRequest();
@@ -86,13 +96,10 @@ export default class Container extends React.Component {
                 <div className="list">
                     {allItem.map((item, index) => (
                         <Item
+                            {...item}
                             key={index}
-                            category={allCategory[index].name}
-                            categoryId={allCategory[index].id}
-                            price={item.price}
-                            name={item.name}
-                            anno={item.anno}
-                            currency={item.currency_id}
+                            category={allCategory[index] !== undefined ? allCategory[index].name : undefined}
+                            categoryId={allCategory[index] !== undefined ? allCategory[index].id : undefined}
                             img='http://placeimg.com/250/250/any'
                             sizeImage={sizeImage}
                             numberStrings={this.annoHeight(numberStrings)} />

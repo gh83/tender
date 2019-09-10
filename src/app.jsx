@@ -16,7 +16,7 @@ export default class App extends React.Component {
       <>
         <Main>
           <Switch>
-            <Route exact path='/' component={Container} />         
+            <Route exact path='/' component={Container} />
             <Route component={NotFound} />
           </Switch>
         </Main>

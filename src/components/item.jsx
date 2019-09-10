@@ -15,23 +15,34 @@ export default class Item extends React.Component {
 
     render() {
         const { img, sizeImage, category, price, name, anno, numberStrings, currency, categoryId } = this.props;
-        const clsPrice = ['price', currency === 'rub' ? 'rub' : ''];
-        const clsCategory = ['fa', `fa-${categoryId}`];
+        let currentCurrency = '';
+        switch (currency) {
+            case 'rub': currentCurrency = 'rub'
+                break;
+            case 'doll': currentCurrency = 'doll'
+                break;
+            case 'eur': currentCurrency = 'eur'
+                break;
+            default:
+                break;
+        };
+        const clsPrice = ['price', currentCurrency];
+        const clsCategory = ['fa', `fa-${categoryId !== undefined ? categoryId : 'hourglass-half'}`];
         return (
             <div className="item">
                 <div className="content">
                     <div className="head">
                         <div className="category">
                             <i className={clsCategory.join(' ')} />
-                            <a hteg='#'>{category}</a>
+                            <a hteg='#'>{category !== undefined ? category : null}</a>
                         </div>
                         <div className={clsPrice.join(' ')}>{this.prettifyPrice(price)}</div>
                     </div>
                     <div className="image-warpper">
-                        <div className="img" style={{width: `${sizeImage}px`, height: `${sizeImage}px`, backgroundImage:`url(${img})`}}/>
+                        <div className="img" style={{ width: `${sizeImage}px`, height: `${sizeImage}px`, backgroundImage: `url(${img})` }} />
                     </div>
                     <a href='#' className='name'>{name}</a>
-                    <div className="anno" style={{height:`${numberStrings}px`}}>{anno}</div>
+                    <div className="anno" style={{ height: `${numberStrings}px` }}>{anno}</div>
                 </div>
             </div>
         )
