@@ -24,8 +24,8 @@ export default class Container extends React.Component {
 
     //запрос item , проверка на отображение кнопки
     async itemRequest() {
-        let { allItem } = this.state;
-        const { lim, off, showButtonNext } = this.state;
+        let { allItem, showButtonNext } = this.state;
+        const { lim, off } = this.state;
         try {
             const item = await axios.get(`https://api.jstask.iac.tender.pro/products?lim=${lim + 1}&off=${off}`);
             if (item.data.length < lim + 1) { showButtonNext = false };
@@ -49,7 +49,6 @@ export default class Container extends React.Component {
             const category = await axios.get(`https://api.jstask.iac.tender.pro/cat?id=${srtingRequest}`);
             allCategory = allCategory.concat(category.data);
             this.setState({ allCategory });
-            console.log(this.state.allItem, this.state.allCategory);
         }
         catch (e) { console.log(e) };
     };
